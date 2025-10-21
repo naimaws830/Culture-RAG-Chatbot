@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Culture RAG Chatbot</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="welcome-screen">
+      <div class="welcome-content">
+        <div class="welcome-header">
+          <div class="welcome-icon">
+            <!-- Minimal Book Icon -->
+            <svg width="32" height="32" viewBox="0 0 24 24" 
+                 fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="3" width="16" height="18" rx="2"/>
+              <line x1="8" y1="7" x2="16" y2="7"/>
+              <line x1="8" y1="11" x2="16" y2="11"/>
+              <line x1="8" y1="15" x2="14" y2="15"/>
+            </svg>
+          </div>
+          <h1 class="welcome-title">Sarawak Heritage Assistant</h1>
+          <p class="welcome-description">
+            I can help you explore the rich folklore and traditional medicine of Sarawak's diverse communities. 
+            Ask me about Malay legends, Bidayuh tales, Iban heroes, and traditional healing practices.
+          </p>
+        </div>
+
+        <!-- Example Questions -->
+        <div class="example-questions">
+          <button class="example-btn" onclick="askExample('Tell me about Bujang Senang')">
+            <div class="example-icon">
+              <!-- Star Icon -->
+              <svg width="16" height="16" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9 12 2"/>
+              </svg>
+            </div>
+            <div class="example-content">
+              <span class="example-text">Tell me about Bujang Senang</span>
+              <span class="example-desc">Learn about legendary giant crocodile</span>
+            </div>
+          </button>
+
+        <button class="example-btn" onclick="askExample('What is the story of Puteri Santubong?')">
+        <div class="example-icon">
+            <!-- Princess Crown -->
+            <svg width="16" height="16" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 18h18l-3-9-6 6-6-6-3 9z"/>
+            <circle cx="5" cy="9" r="1"/>
+            <circle cx="12" cy="5" r="1"/>
+            <circle cx="19" cy="9" r="1"/>
+            </svg>
+        </div>
+        <div class="example-content">
+            <span class="example-text">What is the story of Puteri Santubong?</span>
+            <span class="example-desc">Discover the tale of the weaving princess</span>
+        </div>
+        </button>
+
+
+          <button class="example-btn" onclick="askExample('What traditional medicine do Iban people use?')">
+            <div class="example-icon">
+              <!-- Aid Kit Icon -->
+              <svg width="16" height="16" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="7" width="18" height="14" rx="2"/>
+                <path d="M12 11v6M9 14h6"/>
+                <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+            </div>
+            <div class="example-content">
+              <span class="example-text">What medicine do Iban people use?</span>
+              <span class="example-desc">Explore indigenous healing practices</span>
+            </div>
+          </button>
+
+          <button class="example-btn" onclick="askExample('Who is Dayang Isah in Bidayuh folklore?')">
+            <div class="example-icon">
+              <!-- Heart Icon -->
+              <svg width="16" height="16" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>
+              </svg>
+            </div>
+            <div class="example-content">
+              <span class="example-text">Who is Dayang Isah in Bidayuh folklore?</span>
+              <span class="example-desc">Meet legendary Bidayuh figures</span>
+            </div>
+          </button>
+        </div>
+
+        <div class="welcome-footer">
+          <p>Powered by RAG (Retrieval-Augmented Generation) • Based on Sarawakian cultural knowledge</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Interface -->
+    <div id="chat-interface" class="chat-interface hidden">
+      <div class="chat-header">
+        <div class="header-content">
+          <h2 class="header-title">Sarawak Heritage Assistant</h2>
+          <p class="header-subtitle">Answers based on Sarawakian folklore and traditional medicine</p>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chat-messages">
+        <!-- Messages injected by JS -->
+      </div>
+
+      <div class="chat-input-container">
+        <form id="chat-form" class="chat-form">
+          <div class="input-wrapper">
+            <textarea 
+              id="message-input" 
+              placeholder="Ask me about Sarawak legends and traditional medicine..."
+              rows="1"
+              class="message-input"
+            ></textarea>
+            <button type="submit" class="send-button" id="send-button">
+              <!-- Minimal Send -->
+              <svg width="16" height="16" viewBox="0 0 24 24" 
+                   fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 2L11 13"/>
+                <path d="M22 2L15 22L11 13L2 9Z"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Loading Toast -->
+    <div id="loading-toast" class="loading-toast hidden">
+      <div class="loading-content">
+        <div class="loading-spinner"></div>
+        <span>Generating response...</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="culture-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
